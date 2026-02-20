@@ -1,4 +1,4 @@
-﻿using UdonSharp;
+using UdonSharp;
 using UnityEngine;
 using VRC.SDKBase;
 
@@ -9,6 +9,11 @@ public class PickupTriggersDoll : UdonSharpBehaviour
 
     [Header("State (read-only)")]
     [SerializeField] private bool localInsideZone;
+
+    void Start()
+    {
+        InteractionText = "Catch";
+    }
 
     // Called by NearZoneTracker (on the trigger zone)
     public void SetInsideTrue()
@@ -23,18 +28,15 @@ public class PickupTriggersDoll : UdonSharpBehaviour
         // Debug.Log("[PickupTriggersDoll] SetInsideFalse");
     }
 
-    // VRChat event: fires when THIS pickup is picked up
-    public override void OnPickup()
+    // VRChat Interact: fires when player clicks (shows "Catch" instead of "Hold to Grab")
+    public override void Interact()
     {
-        // Debug.Log("[PickupTriggersDoll] OnPickup localInsideZone=" + localInsideZone);
-
         if (!localInsideZone) return;
         if (doll == null) return;
 
         VRCPlayerApi local = Networking.LocalPlayer;
         if (local == null) return;
 
-        // Multiplayer: set doll to chase the picker (by synced playerId)
         doll.StartChasePlayerId(local.playerId);
     }
 
