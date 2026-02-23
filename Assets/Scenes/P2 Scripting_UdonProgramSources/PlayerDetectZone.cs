@@ -31,7 +31,7 @@ public class PlayerDetectZone : UdonSharpBehaviour
     private void Update()
     {
         // Change playerCount value to dictate required players for interaction
-        if (playerCount == 1)
+        if (playerCount >= 1)
         {
             setOpen = true;
         }
